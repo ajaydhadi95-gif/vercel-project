@@ -13,20 +13,11 @@ pipeline {
             }
         }
 
-        stage('Deploy to Vercel') {
+        stage('Deploy') {
             steps {
                 
-                sh "npx vercel --token ${VERCEL_TOKEN} --name devops-project-live --prod --yes"
+                bat "npx vercel --token ${VERCEL_TOKEN} --name devops-project-live --prod --yes"
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Deployment Successful!'
-        }
-        failure {
-            echo 'Deployment failed. Check the Console Output for errors.'
         }
     }
 }
