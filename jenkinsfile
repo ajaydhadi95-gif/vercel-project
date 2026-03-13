@@ -2,10 +2,8 @@ pipeline {
     agent any
 
     environment {
-        // Use the ID you set in Jenkins Credentials
+        
         VERCEL_TOKEN = credentials('VERCEL_TOKEN')
-        // Replace with your actual project name on Vercel
-        PROJECT_NAME = "devops-pipeline-monitor"
     }
 
     stages {
@@ -15,30 +13,20 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                // Ensures the Vercel CLI is available for the build
-                sh 'npm install --quiet'
-            }
-        }
-
         stage('Deploy to Vercel') {
             steps {
-                script {
-                    // --prod triggers a production deployment
-                    // --yes skips any interactive confirmation prompts
-                    sh "npx vercel --token ${VERCEL_TOKEN} --name ${PROJECT_NAME} --prod --yes --confirm"
-                }
+                
+                sh "npx vercel --token ${VERCEL_TOKEN} --name devops-project-live --prod --yes"
             }
         }
     }
 
     post {
         success {
-            echo "Deployment Successful! Check your Vercel Dashboard."
+            echo 'Deployment Successful!'
         }
         failure {
-            echo "Deployment failed. Check the Jenkins console output."
+            echo 'Deployment failed. Check the Console Output for errors.'
         }
     }
 }
