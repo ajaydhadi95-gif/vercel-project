@@ -1,22 +1,10 @@
 pipeline {
     agent any
 
-    environment {
-        
-        VERCEL_TOKEN = credentials('VERCEL_TOKEN')
-    }
-
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                
-                bat "npx vercel --token ${VERCEL_TOKEN} --name devops-project-live --prod --yes"
+        steps('code clone') {
+            stap {
+                git 'https://github.com/ajaydhadi95-gif/vercel-project.git'
             }
         }
     }
