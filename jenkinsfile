@@ -19,13 +19,13 @@ pipeline {
         stage('Install vercel CLI') {
             steps {
                 echo 'install vercel CLI'
-                sh 'npm install -g vercel'
+                bat 'npm install -g vercel'
             }
         }
         stage('Deploye on vercel') {
             steps {
                 echo 'Deploying to Vercel Production...'
-                sh 'vercel --token $VERCEL_TOKEN --prod --yes'
+                bat 'vercel --token $VERCEL_TOKEN --prod --yes'
             
             }
         }
