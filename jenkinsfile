@@ -1,11 +1,42 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'NodeJs'
+    }
+    environment {
+        VERCEL_TOKEN = credentials('VERCEL_TOKEN_ID')
+        ORG_NAME = 'ajaydhadi95'
+        PROJECT_NAME ="Vercel_project"
+    }
+
     stages {
-        steps('code clone') {
-            stap {
-                git 'https://github.com/ajaydhadi95-gif/vercel-project.git'
+        stage('code clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/ajaydhadi95-gif/vercel-project.git'
+            }
+        }
+        stage('Install vercel CLI') {
+            steps {
+                echo 'install vercel CLI'
+                sh 'npm install -g vercel'
+            }
+        }
+        stage('Deploye on vercel') {
+            steps {
+                echo 'Deploying to Vercel Production...'
+                sh 'vercel --token $VERCEL_TOKEN --prod --yes'
+            
             }
         }
     }
 }
+post {
+    
+    success {
+    echo 'deploye ment succusfull'
+    }
+    failure {
+    echo'deployement failed please chack the logs'
+   }
+}   
